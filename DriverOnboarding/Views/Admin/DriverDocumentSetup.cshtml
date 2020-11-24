@@ -1,0 +1,129 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Driver Doc.</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <alert class="alert alert-danger">@TempData["ErrorMsg"]</alert>
+        }
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <alert class="alert alert-success">@TempData["SuccessMsg"]</alert>
+        }
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Document Name</th>
+                    <th>Document Type</th>
+                    <th>Mandatory</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Document</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Admin" asp-action="UpdateDriverDocumentSetup" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Document Name</label>
+                            <input type="hidden" class="form-control paramsId" name="id" id="paramsId">
+                            <input type="text" class="form-control docName" name="docName" id="docName" placeholder="Enter Scheme">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Document Type</label>
+                            <input type="text" class="form-control docType" name="docType" id="docType" placeholder="Enter Scheme">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Required Statues</label>
+                            <select class="form-control docStatus" name="docStatus" id="docStatus" required>
+                                <option value="">Select Option</option>
+                                <option value="Mandatory">Mandatory</option>
+                                <option value="Optional">Optional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("GetDriverDocumentSetup", "Admin")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "docName" },
+                { "data": "docType" },
+                { "data": "docStatus" },
+                {}
+            ],
+            columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": -1
+            },{
+                "data": null,
+                "defaultContent": "",
+                "targets": -1
+            },
+            { targets : [4],
+                mRender: function (data, type, row, meta) {
+                    return '<button class="btn btn-danger updateBtn" id="activeBtn" data-pid="' + row.id + '" data-doctype="' + row.docType + '" data-docname="' + row.docName + '"data-statusid="1" data-toggle="modal" data-target="#modal-default">Edit</button>';
+                }
+            }
+            ],
+            "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+
+    $(document).on('click', '.updateBtn', function () {
+        var pid = $(this).data('pid');
+        var docType = $(this).data('doctype');
+        var docName = $(this).data('docname');
+
+        $("#paramsId").val(pid);
+        $("#docName").val(docName);
+        $("#docType").val(docType);
+    });
+</script>

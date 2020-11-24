@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Drivers</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            @if (TempData["ErrorMsg"] != null)
+            {
+                <alert class="alert alert-danger">@TempData["ErrorMsg"]</alert>
+            }
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Fullname</th>
+                        <th>Address</th>
+                        <th>UberId</th>
+                        <th>Driver License</th>
+                        <th>Contact Details</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("DriversData", "Drivers")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "drn" },
+                { "data": "fullname" },
+                { "data": "address" },
+                { "data": "uberId" },
+                { "data": "driverLicense" },
+                { "data": "contactDetails" },
+                { "data": "applicationStatus" },
+                {}
+            ],
+            columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": -1
+            },{
+                "data": null,
+                "defaultContent": "",
+                "targets": -1
+            },
+            { targets : [7],
+                mRender: function (data, type, row, meta) {
+                    var url = '@Url.Action("Details", "Drivers" )' + "/" + row.id+ "?drn=" + row.drn;
+                    return '<a href="' + url + '" class="btn btn-info viewdetails" data-container="body" data-toggle="m-tooltip" data-placement="top" data-original-title="View Details" title="View Details"><i class="fa fa-info-circle"></i></a>';
+                    //if (row.StatusID == "3") {
+                    //    //var userId = row.USER_NAME;
+                    //    return '<a href="' + url + '" class="btn btn-info viewdetails" data-container="body" data-toggle="m-tooltip" data-placement="top" data-original-title="View Details" title="View Details"><i class="fa fa-info-circle"></i></a>';
+                    //} else {
+                    //    return '<a href="#" class="btn btn-danger statusModel" id="updateStatusbtn" data-projectid="' + row.id + '" data-projectdesc="' + row.ProjectName + '" data-projectstatus="' + row.StatusID + '"  data-container="body" data-placement="top" data-original-title="Update Status" title="Update Status" data-toggle="modal" data-target="#updateStatusModal"> <i class="fa fa-edit"></i></a> '+
+                    //            '<a href="' + url + '" class="btn btn-info viewdetails" data-container="body" data-toggle="m-tooltip" data-placement="top" data-original-title="View Details" title="View Details"><i class="fa fa-info-circle"></i></a>';
+                    //}
+                }
+            }
+        ],
+            "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+</script>

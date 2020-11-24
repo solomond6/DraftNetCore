@@ -1,0 +1,336 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{var dDetails = ViewBag.DriverDetails; }
+@{var dPassport = ViewBag.DriverPassport; }
+@{var TestResult = ViewBag.TestResult; }
+@{var TestPhysicalResult = ViewBag.TestPhysicalResult; }
+@{var BankAccount = ViewBag.BankAccount; }
+@{var BvnVerified = ViewBag.BvnVerified; }
+@{var VResult = ViewBag.VResult; }
+@{var Latitude = ViewBag.Latitude; }
+@{var Longitude = ViewBag.Longitude; }
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALHJUmvKlSjuK9Gf89EmXG5_ckL6abXLY"></script>
+<script type="text/javascript">
+
+    var lat = parseFloat("@Latitude");
+    var lng = parseFloat("@Longitude");
+
+    var geocoder;
+
+    function initMap() {
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: { lat: lat, lng: lng },
+      });
+      marker = new google.maps.Marker({
+        map,
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: { lat: lat, lng: lng },
+        title: "@dDetails.Address",
+      });
+      marker.addListener("click", toggleBounce);
+    }
+
+    function toggleBounce() {
+      if (marker.getAnimation() !== null) {
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+</script>
+
+
+
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <div class="text-left">
+                    @if (dPassport != null)
+                    {
+                        var base64 = Convert.ToBase64String(dPassport.PassportData);
+                        var imgType = dPassport.ImageType;
+                        var imgSrc = String.Format("data:image/" + @imgType + ";base64,{0}", base64);
+                        <img class="img-fluid " src="@imgSrc" alt="User profile picture" style="width: 100%;">
+                    }
+
+                </div>
+
+                <h3 class="profile-username text-left">@dDetails.FirstName  @dDetails.Surname </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Name:<small>@dDetails.UberName</small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Id:<small> @dDetails.UberId </small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Score:<small> @dDetails.UberScore</small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Moove Score:<small> @dDetails.Score</small> </h3>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#verificationResult" data-toggle="tab">Verification Result</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#veriAddressDetails" data-toggle="tab">Address Verification Result</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#driverdetails" data-toggle="tab">Driver Details</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="verificationResult">
+                        <table class="table table-bordered table-striped">
+                            @if (TestResult.Count > 0)
+                            {
+                                <thead>
+                                    <tr><th colspan="4">Onbaording Test</th></tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tes in TestResult)
+                                    {
+                                        <tr><td>Score</td><td>@tes.Score</td><td>Percentage</td><td>@tes.PercentageScore</td></tr>
+                                    }
+                                    <tr>
+                                        <td colspan="2" class="text-bold">Confirm Status</td>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="testResult">
+                                                    <label class="form-check-label">Approve</label>
+                                                </div>
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="testResult">
+                                                    <label class="form-check-label">Reject</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+
+                            @if (TestResult.Count > 0)
+                            {
+                                <thead>
+                                    <tr><th colspan="4">Physical Test</th></tr>
+                                    <tr><th colspan="2">Question</th><th>Remarks</th><th>Result</th></tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var tess in TestPhysicalResult)
+                                    {
+                                        <tr><td colspan="2">@Html.Raw(tess.QuestionHtml)</td><td>@tess.Remark</td><td>@tess.Result</td></tr>
+                                    }
+                                    <tr>
+                                        <td colspan="2" class="text-bold">Confirm Status</td>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="testPhysicalResult" required>
+                                                    <label class="form-check-label">Approve</label>
+                                                </div>
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="testPhysicalResult" required>
+                                                    <label class="form-check-label">Reject</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+                            @if (BankAccount.Count > 0)
+                            {
+                                <thead>
+                                    <tr><th colspan="4">Bank Details</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td></td><td>Details Provided</td><td colspan="2">Details Retrieved</td></tr>
+                                    @foreach (var bacc in BankAccount)
+                                    {
+                                        <tr><td class="text-bold">Account Number</td><td>@bacc.sAccountNumber</td><td colspan="2" class="text-bold">@bacc.dAccountNumber</td></tr>
+                                        <tr><td class="text-bold">Account Name</td><td>@bacc.sAccountName</td><td colspan="2" class="text-bold">@bacc.dAccountName</td></tr>
+                                    }
+                                    <tr>
+                                        <td colspan="2" class="text-bold">Confirm Status</td>
+                                        <td colspan="2">
+                                            <div class="form-group">
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="bankDetails" required>
+                                                    <label class="form-check-label">Approve</label>
+                                                </div>
+                                                <div class="form-check d-inline">
+                                                    <input class="form-check-input" type="radio" name="bankDetails" required>
+                                                    <label class="form-check-label">Reject</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            }
+
+                            @if (BvnVerified.Count > 0)
+                            {
+                                <thead>
+                                    <tr><th colspan="4">BVN</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td class="text-bold">@BvnVerified[0].Bvn</td><td class="text-bold">Details Provided</td><td colspan="2" class="text-bold">Details Retrieved</td></tr>
+                                    <tr><td class="text-bold">Firstname</td><td>@dDetails.FirstName </td><td colspan="2">@BvnVerified[0].Firstname</td></tr>
+                                    <tr><td class="text-bold">Lastname</td><td>@dDetails.Surname</td><td colspan="2">@BvnVerified[0].Lastname</td></tr>
+                                    <tr><td class="text-bold">Phone Number</td><td>@dDetails.Mobile</td><td colspan="2">@BvnVerified[0].PhoneNumber</td></tr>
+                                    <tr><td class="text-bold">Date Of Birth</td><td>@dDetails.DateOfBirth</td><td colspan="2">@BvnVerified[0].DateofBirth</td></tr>
+                                </tbody>
+                                <tr>
+                                    <td colspan="2" class="text-bold">Confirm Status</td>
+                                    <td colspan="2">
+                                        <div class="form-group">
+                                            <div class="form-check d-inline">
+                                                <input class="form-check-input" type="radio" name="bvnDetails" required>
+                                                <label class="form-check-label">Approve</label>
+                                            </div>
+                                            <div class="form-check d-inline">
+                                                <input class="form-check-input" type="radio" name="bvnDetails" required>
+                                                <label class="form-check-label">Reject</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="veriAddressDetails">
+                        <div class="row">
+                            @if (VResult.Count > 0)
+                            {
+                                <div class="col-4">
+                                    <table class="table table-bordered table-striped">
+                                        @foreach (var vr in VResult)
+                                        {
+                                            var base64 = Convert.ToBase64String(vr.ImageData);
+                                            var imgType = vr.ImageType;
+                                            var imgSrc = String.Format("data:image/" + @imgType + ";base64,{0}", base64);
+                                            <tr><td colspan="2">@vr.VerificationItem</td></tr>
+                                            <tr><td><img class="img-fluid " src="@imgSrc"><hr />@vr.Note</td></tr>
+                                        }
+                                        
+                                    </table>
+                                </div>
+                                <div class="col-8">
+                                    <div id="map" style="width:100%;height:700px;"></div>
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <td colspan="2" class="text-bold">Confirm Status</td>
+                                            <td colspan="2">
+                                                <div class="form-group">
+                                                    <div class="form-check d-inline">
+                                                        <input class="form-check-input" type="radio" name="addressDetails" required>
+                                                        <label class="form-check-label">Approve</label>
+                                                    </div>
+                                                    <div class="form-check d-inline">
+                                                        <input class="form-check-input" type="radio" name="addressDetails" required>
+                                                        <label class="form-check-label">Reject</label>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4" class="text-bold float-right">
+                                                <button type="submit" name="SubmitApproval" class="btn btn-danger btn-lg">Submit</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="driverdetails">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr><td class="text-bold">Fullname: </td><td>@dDetails.FirstName @dDetails.Surname @dDetails.MiddleName</td><td class="text-bold">Gender: </td><td>@dDetails.Gender</td></tr>
+                                <tr><td class="text-bold">Email: </td><td>@dDetails.Email</td><td class="text-bold">Phone Number: </td><td>@dDetails.Mobile</td></tr>
+                                <tr><td class="text-bold">MaidenName: </td><td>@dDetails.MaidenName</td><td class="text-bold">BVN: </td><td>@dDetails.Bvn</td></tr>
+                                <tr><td class="text-bold">Driver License Number: </td><td>@dDetails.DriverLicenseNumber</td><td class="text-bold">Driver License Expiry Date: </td><td>@dDetails.DriverLicenseExpiryDate</td></tr>
+                                <tr><td class="text-bold">Marital Status: </td><td>@dDetails.MaritalStatus</td><td class="text-bold">Date Of Birth: </td><td>@dDetails.DateOfBirth</td></tr>
+                                <tr><td class="text-bold">Religion: </td><td>@dDetails.Religion</td><td class="text-bold">State Of Origin: </td><td>@dDetails.StateOfOrigin</td></tr>
+                                <tr><td class="text-bold">LGA: </td><td>@dDetails.LocalGovernmentArea</td><td class="text-bold">Nationality: </td><td>@dDetails.Nationality</td></tr>
+                                <tr><td class="text-bold">Address: </td><td>@dDetails.Address</td><td class="text-bold">City: </td><td>@dDetails.City</td></tr>
+                                <tr><td class="text-bold">State: </td><td>@dDetails.State</td><td class="text-bold">LGA Of Residence: </td><td>@dDetails.LgaofResidence</td></tr>
+                                <tr><td class="text-bold">LCDA Of Residence: </td><td>@dDetails.LcdaofResidence</td><td class="text-bold">Postal Address: </td><td>@dDetails.PostalAddress</td></tr>
+                                <tr><td class="text-bold">Next Of Kin Name: </td><td>@dDetails.NextOfKinName</td><td class="text-bold">Next Of Kin Relationship: </td><td>@dDetails.NextOfKinRelationship</td></tr>
+                                <tr><td class="text-bold">Address Of NextOfKin: </td><td>@dDetails.AddressOfNextOfKin</td><td class="text-bold">Next Of Kin Occupation: </td><td>@dDetails.NextOfKinOccupation</td></tr>
+                                <tr><td class="text-bold">Next Of Kin Telephone Number: </td><td>@dDetails.NextOfKinTelephoneNumber</td><td class="text-bold">Next Of Kin Occupation: </td><td>@dDetails.NextOfKinOccupation</td></tr>
+                                <tr><td class="text-bold">Assigned Vehicle: </td><td>@dDetails.AssignedVehicle</td><td class="text-bold">Assigned Vehicle RegNo: </td><td>@dDetails.AssignedVehicleRegNo</td></tr>
+                                <tr><td class="text-bold">Vehicle Assignment DateTime: </td><td>@dDetails.VehicleAssignmentDateTime</td><td class="text-bold">Assigned Vehicle Details: </td><td>@dDetails.AssignedVehicleDetails</td></tr>
+                                <tr><td class="text-bold">Created Date: </td><td>@dDetails.CreatedDateTime</td><td class="text-bold">Application Status: </td><td>@dDetails.ApplicationStatus</td></tr>
+                                <tr><td class="text-bold">Remark: </td><td>@dDetails.Remark</td><td class="text-bold">Remark Reason: </td><td>@dDetails.RemarkReason</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+//let map, infoWindow;
+
+//function initMap() {
+//  map = new google.maps.Map(document.getElementById("map"), {
+//    center: { lat: -34.397, lng: 150.644 },
+//    zoom: 6,
+//  });
+//  infoWindow = new google.maps.InfoWindow();
+//  const locationButton = document.createElement("button");
+//  locationButton.textContent = "Pan to Current Location";
+//  locationButton.classList.add("custom-map-control-button");
+//  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+//  locationButton.addEventListener("click", () => {
+//    // Try HTML5 geolocation.
+//    if (navigator.geolocation) {
+//      navigator.geolocation.getCurrentPosition(
+//        (position) => {
+//          const pos = {
+//            lat: position.coords.latitude,
+//            lng: position.coords.longitude,
+//          };
+//          infoWindow.setPosition(pos);
+//          infoWindow.setContent("Location found.");
+//          infoWindow.open(map);
+//          map.setCenter(pos);
+//        },
+//        () => {
+//          handleLocationError(true, infoWindow, map.getCenter());
+//        }
+//      );
+//    } else {
+//      // Browser doesn't support Geolocation
+//      handleLocationError(false, infoWindow, map.getCenter());
+//    }
+//  });
+//}
+
+//function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+//  infoWindow.setPosition(pos);
+//  infoWindow.setContent(
+//    browserHasGeolocation
+//      ? "Error: The Geolocation service failed."
+//      : "Error: Your browser doesn't support geolocation."
+//  );
+//  infoWindow.open(map);
+//}
+</script>

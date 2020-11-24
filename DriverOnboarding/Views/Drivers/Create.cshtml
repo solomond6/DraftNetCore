@@ -1,0 +1,498 @@
+﻿@{
+    ViewData["Title"] = "New Driver";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <i class="fas fa-chart-pie mr-1"></i>
+                        New Driver
+                    </h3>
+                </div><!-- /.card-header -->
+                <div class="card-body">
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step">
+                                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <p>Step 1 - BioData</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle disabled">2</a>
+                                <p>Step 2 - Next Of Kin Details</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle disabled">3</a>
+                                <p>Step 3 - Bank Details</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-4" type="button" class="btn btn-default btn-circle disabled">4</a>
+                                <p>Step 4 - Guarantor's Details</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-5" type="button" class="btn btn-default btn-circle disabled">5</a>
+                                <p>Step 5 - Documents</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" id="form">
+                        <div class="setup-content" id="step-1">
+                            <div class="col-xs-12">
+                                <div class="col-md-12">
+                                    <h3> Driver's BioData</h3>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="surname">Surname</label>
+                                            <input id="surname" class="form-control" placeholder="Surname" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="firstname">First Name</label>
+                                            <input id="firstname" class="form-control" placeholder="First Name" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="middlename">Middle Name</label>
+                                            <input id="middlename" class="form-control" placeholder="Middle Name" type="text">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="dob">Date of Birth</label>
+                                            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                                                <input id="dob" type="text" class="form-control datetimepicker-input" data-target="#reservationdate" required>
+                                                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="gender">Gender</label>
+                                            <select id="gender" value="Gender" class="form-control" placeholder="Gender" required>
+                                                <option>Select Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="maritalstatus">Marital Status</label>
+                                            <select id="maritalstatus" value="Marital Status" placeholder="Marital Status" class="form-control" required>
+                                                <option>Select Marital Status</option>
+                                                <option value="Single">Single</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Divorced">Divorced</option>
+                                                <option value="Widowed">Widowed</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="email">Email</label>
+                                            <input id="email" placeholder="Email" type="email" class="form-control" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="religion">Religion</label>
+                                            <select id="religion" class="form-control" placeholder="Religion" type="text" required>
+                                                <option>Select Religion</option>
+                                                <option value="Christianity">Christianity</option>
+                                                <option value="Islam">Islam</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="mobile">Phone Number</label>
+                                            <input id="mobile" class="form-control" placeholder="Phone Number" type="tel" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="mobile">Alt. Phone Number</label>
+                                            <input id="mobile2" class="form-control" placeholder="Phone Number" type="tel" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="nationality">Nationality</label>
+                                            <select id="nationality" class="form-control" placeholder="Nationality" type="text" required>
+                                                <option>Select Nationality</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="stateoforigin">State of Origin</label>
+                                            <select id="stateoforigin" class="form-control" placeholder="State of Origin" required>
+                                                <option>Select A State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="lgaoforigin">Local Government Of Origin</label>
+                                            <select id="lgaoforigin" class="form-control" placeholder="Local Government" required>
+                                                <option>Select A LGA</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="state">State of Residence</label>
+                                            <select id="state" class="form-control" placeholder="State of Residence" required>
+                                                <option>Select A State</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="lgaofresidence">Local Government Of Residence </label>
+                                            <select type="text" placeholder="" id="lgaofresidence" class="form-control" required>
+                                                <option>Select A LGA</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="lcda">Local Council Development Area </label>
+                                            <select type="text" placeholder="LCDA" id="lcda" class="form-control" required>
+                                                <option>Select A LCDA</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="address">Address</label>
+                                            <input id="address" class="form-control" placeholder="Address" type="text" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="bvn">Bank Verification Number (BVN)</label>
+                                            <div class="input-group mb-3">
+                                                <input id="bvn" placeholder="Bank Verification Number" type="text" class="form-control">
+                                                <div class="input-group-prepend">
+                                                    <button id="validatebvn" type="button" class="btn btn-danger">Validate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="edulevel">Educational Level</label>
+                                            <select id="edulevel" placeholder="Educational Level" class="form-control" type="text">
+                                                <option>Select Education Level</option>
+                                                <option value="Primary">Primary</option>
+                                                <option value="Secondary">Secondary</option>
+                                                <option value="Tertiary">Tertiary</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="driverlicensenumber">Driver License Number </label>
+                                            <div class="input-group mb-3">
+                                                <input type="text" placeholder="Driver License Number" id="driverlicensenumber" class="form-control">
+                                                <div class="input-group-prepend">
+                                                    <button type="button" class="btn btn-danger">Validate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="driverlicenseexpirydate">Driver License Expiry Date </label>
+                                            <div class="input-group date" id="reservationdate1" data-target-input="nearest">
+                                                <input id="driverlicenseexpirydate" type="text" class="form-control datetimepicker-input" data-target="#reservationdate1" required>
+                                                <div class="input-group-append" data-target="#reservationdate1" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="uberid">Uber ID</label>
+                                            <input type="text" placeholder="Uber ID" id="uberid" class="form-control">
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="ubername">Uber Name </label>
+                                            <input type="text" placeholder="Uber Name" id="ubername" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setup-content" id="step-2">
+                            <div class="col-xs-12">
+                                <div class="col-md-12">
+                                    <h3> Emergency Contact Details</h3>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="nok">NOK Name</label>
+                                            <input id="nok" placeholder="Name" class="form-control" type="text" required>
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label for="nokaddress">NOK Address</label>
+                                            <input id="nokaddress" placeholder="Address" class="form-control" type="text" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="nokrelationship">Relationship</label>
+                                            <input id="nokrelationship" placeholder="Relationship" class="form-control" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="nokoccupation">Occupation</label>
+                                            <input id="nokoccupation" placeholder="Occupation" class="form-control" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="nokphone">Phone Number</label>
+                                            <input id="nokphone" placeholder="Phone Number" class="form-control" type="tel" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="float-left">
+                                        <button class="btn btn-primary prevBtn pull-right" type="button">Previous</button>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setup-content" id="step-3">
+                            <div class="col-xs-12">
+                                <div class="col-md-11">
+                                    <h3> Driver's Bank Details</h3>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label for="accname">Account Name</label>
+                                            <input id="accname" class="form-control" placeholder="Account Name" type="text" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="accnumber">Account Number</label>
+                                            <input id="accnumber" class="form-control" placeholder="Account Number" type="text" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="bank">Bank</label>
+                                            <select id="banklist" name="bank" class="form-control" placeholder="Bank">
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <button id="verifybankaccount">Verify</button>
+                                        </div>
+                                    </div>
+                                    <div class="float-left">
+                                        <button class="btn btn-primary prevBtn pull-right" type="button">Previous</button>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setup-content" id="step-4">
+                            <div class="col-xs-12">
+                                <div class="col-md-11">
+                                    <h3> Driver's Guarantor Details</h3>
+                                    <div class="float-left">
+                                        <button class="btn btn-primary prevBtn pull-right" type="button">Previous</button>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setup-content" id="step-5">
+                            <div class="col-xs-12">
+                                <div class="col-md-11">
+                                    <h3> Documents</h3>
+
+                                    @foreach (var doc in ViewBag.Driverdocuments)
+                                    {
+                                        if (doc.DocumentStatus == "Mandatory")
+                                        {
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">@doc.Name</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="@doc.Name" id="exampleInputFile" required>
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group">
+                                                <label for="exampleInputFile">@doc.Name</label>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" name="@doc.Name" id="exampleInputFile">
+                                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="float-left">
+                                        <button class="btn btn-primary prevBtn pull-right" type="button">Previous</button>
+                                    </div>
+                                    <div class="float-right">
+                                        <button class="btn btn-success pull-right" type="submit">Finish!</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div><!-- /.card-body -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetCountries", "Utilities")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    requestData = item;
+                    jQuery.grep(item, function(countryList, i) {
+                        $('#nationality').append($('<option>', {
+                            value: countryList.name,
+                            text: countryList.name
+                        }));
+                    });
+                });
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetBanks", "Utilities")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    requestData = item;
+                    jQuery.grep(item, function(bankList, i) {
+                        $('#banklist').append($('<option>', {
+                            value: bankList.name,
+                            text: bankList.name
+                        }));
+                    });
+                });
+            }
+        });
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetStates", "Utilities")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    requestData = item;
+                    jQuery.grep(item, function(stateList, i) {
+                        $('#state').append($('<option>', {
+                            value: stateList.name,
+                            text: stateList.name
+                        }));
+                        $('#stateoforigin').append($('<option>', {
+                            value: stateList.name,
+                            text: stateList.name
+                        }));
+                    });
+                });
+            }
+        });
+
+        
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetLGAs", "Utilities")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    requestData = item;
+                    jQuery.grep(item, function(lgaList, i) {
+                        $('#lgaofresidence').append($('<option>', {
+                            value: lgaList.name,
+                            text: lgaList.name
+                        }));
+                    });
+                });
+            }
+        });
+
+        $(document).on("change", "#stateoforigin", function () {
+            var stateId = $("#stateoforigin").val();
+            $('#lgaoforigin').empty().append($('<option>', { value: '', text: 'Select A LGA' }));
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetStateLGAs", "Utilities")",
+                contentType: "application/json; charset=utf-8",
+                data: {'stateId': stateId},
+                dataType: "json",
+                success: function (data) {
+                    //console.log(data);
+                    $.each(data, function (index, item) {
+                        requestData = item;
+                        jQuery.grep(item, function(stateList, i) {
+                                $('#lgaoforigin').append($('<option>', {
+                                value: stateList.name,
+                                text: stateList.name
+                            }));
+                        });
+                    });
+                }
+            });
+        });
+
+        $(document).on("change", "#state", function () {
+            var stateId = $("#state").val();
+            console.log(stateId);
+            $('#lgaofresidence').empty().append($('<option>', { value: '', text: 'Select A LGA' }));
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetStateLGAs", "Utilities")",
+                contentType: "application/json; charset=utf-8",
+                data: {'stateId': stateId},
+                dataType: "json",
+                success: function (data) {
+                    //console.log(data);
+                    $.each(data, function (index, item) {
+                        requestData = item;
+                        jQuery.grep(item, function(lgaList, i) {
+                            $('#lgaofresidence').append($('<option>', {
+                                value: lgaList.name,
+                                text: lgaList.name
+                            }));
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+

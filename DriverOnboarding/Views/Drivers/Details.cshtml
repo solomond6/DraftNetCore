@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{var dDetails = ViewBag.DriverDetails; }
+@{var dPassport = ViewBag.DriverPassport; }
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+                <div class="text-left">
+                    @if (dPassport != null)
+                    {
+                        var base64 = Convert.ToBase64String(dPassport.PassportData);
+                        var imgType = dPassport.ImageType;
+                        var imgSrc = String.Format("data:image/" + @imgType + ";base64,{0}", base64);
+                        <img class="img-fluid " src="@imgSrc" alt="User profile picture" style="width: 100%;">
+                    }
+
+                </div>
+
+                <h3 class="profile-username text-left">@dDetails.FirstName  @dDetails.Surname </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Name:<small>@dDetails.UberName</small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Id:<small> @dDetails.UberId </small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Uber Score:<small> @dDetails.UberScore</small> </h3>
+                <hr />
+                <h3 class="profile-username text-left">Moove Score:<small> @dDetails.Score</small> </h3>
+
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <div class="card card-primary card-outline">
+            <div class="card-header p-2">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" href="#driverdetails" data-toggle="tab">Driver Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#guarantordetails" data-toggle="tab">Guarantor Details</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="active tab-pane" id="driverdetails">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                                <tr><td class="text-bold">Fullname: </td><td>@dDetails.FirstName @dDetails.Surname @dDetails.MiddleName</td><td class="text-bold">Gender: </td><td>@dDetails.Gender</td></tr>
+                                <tr><td class="text-bold">Email: </td><td>@dDetails.Email</td><td class="text-bold">Phone Number: </td><td>@dDetails.Mobile</td></tr>
+                                <tr><td class="text-bold">MaidenName: </td><td>@dDetails.MaidenName</td><td class="text-bold">BVN: </td><td>@dDetails.Bvn</td></tr>
+                                <tr><td class="text-bold">Driver License Number: </td><td>@dDetails.DriverLicenseNumber</td><td class="text-bold">Driver License Expiry Date: </td><td>@dDetails.DriverLicenseExpiryDate</td></tr>
+                                <tr><td class="text-bold">Marital Status: </td><td>@dDetails.MaritalStatus</td><td class="text-bold">Date Of Birth: </td><td>@dDetails.DateOfBirth</td></tr>
+                                <tr><td class="text-bold">Religion: </td><td>@dDetails.Religion</td><td class="text-bold">State Of Origin: </td><td>@dDetails.StateOfOrigin</td></tr>
+                                <tr><td class="text-bold">LGA: </td><td>@dDetails.LocalGovernmentArea</td><td class="text-bold">Nationality: </td><td>@dDetails.Nationality</td></tr>
+                                <tr><td class="text-bold">Address: </td><td>@dDetails.Address</td><td class="text-bold">City: </td><td>@dDetails.City</td></tr>
+                                <tr><td class="text-bold">State: </td><td>@dDetails.State</td><td class="text-bold">LGA Of Residence: </td><td>@dDetails.LgaofResidence</td></tr>
+                                <tr><td class="text-bold">LCDA Of Residence: </td><td>@dDetails.LcdaofResidence</td><td class="text-bold">Postal Address: </td><td>@dDetails.PostalAddress</td></tr>
+                                <tr><td class="text-bold">Next Of Kin Name: </td><td>@dDetails.NextOfKinName</td><td class="text-bold">Next Of Kin Relationship: </td><td>@dDetails.NextOfKinRelationship</td></tr>
+                                <tr><td class="text-bold">Address Of NextOfKin: </td><td>@dDetails.AddressOfNextOfKin</td><td class="text-bold">Next Of Kin Occupation: </td><td>@dDetails.NextOfKinOccupation</td></tr>
+                                <tr><td class="text-bold">Next Of Kin Telephone Number: </td><td>@dDetails.NextOfKinTelephoneNumber</td><td class="text-bold">Next Of Kin Occupation: </td><td>@dDetails.NextOfKinOccupation</td></tr>
+                                <tr><td class="text-bold">Assigned Vehicle: </td><td>@dDetails.AssignedVehicle</td><td class="text-bold">Assigned Vehicle RegNo: </td><td>@dDetails.AssignedVehicleRegNo</td></tr>
+                                <tr><td class="text-bold">Vehicle Assignment DateTime: </td><td>@dDetails.VehicleAssignmentDateTime</td><td class="text-bold">Assigned Vehicle Details: </td><td>@dDetails.AssignedVehicleDetails</td></tr>
+                                <tr><td class="text-bold">Created Date: </td><td>@dDetails.CreatedDateTime</td><td class="text-bold">Application Status: </td><td>@dDetails.ApplicationStatus</td></tr>
+                                <tr><td class="text-bold">Remark: </td><td>@dDetails.Remark</td><td class="text-bold">Remark Reason: </td><td>@dDetails.RemarkReason</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="guarantordetails">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

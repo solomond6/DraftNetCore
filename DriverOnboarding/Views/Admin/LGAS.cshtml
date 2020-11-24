@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Countries</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <alert class="alert alert-danger">@TempData["ErrorMsg"]</alert>
+        }
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("GetLGAS", "Admin")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "lgaName" },
+            ],
+            columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": -1
+            },{
+                "data": null,
+                "defaultContent": "",
+                "targets": -1
+            }
+        ],
+            "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+</script>

@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container-fluid">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        @foreach (var pItem in ViewBag.DriverStatus)
+        {
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="card card-outline card-danger">
+                    <div class="card-body">
+                        <h3> @pItem.StatusCount </h3>
+                        <p>@pItem.StatusKey</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="row">
+        <section class="col-lg-6">
+            <div class="card card-outline card-danger">
+                <div class="card-header">Driver Status</div>
+                <div class="card-body">
+                    <canvas id="myChart" height="200"></canvas>
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-6">
+            <div class="card card-outline card-danger">
+                <div class="card-header">Verification Status</div>
+                <div class="card-body">
+                    <canvas id="myBarChart" height="500" width="700"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/js/Chart.min.js" asp-append-version="true"></script>
+<script>
+
+    //google.charts.load('visualization', { 'packages': ['corechart'] });
+
+    $.ajax({
+      type: 'Get',
+      dataType: 'json',
+      contentType: 'application/json',
+      url: "@Url.Action("GetDriversData", "Home")",
+      //data: {StartDate: _startDate, EndDate: _endDate },
+      success: function (response)
+      {
+        if(response.driverStatus != null){
+            //drawchart(response.projectStatus);
+            
+            var jsonfile = response.driverStatus;
+
+            var labels = jsonfile.map(function(e) {
+                return e.statusKey;
+            });
+            var data = jsonfile.map(function(e) {
+                return e.statusCount;
+            });
+            renderChart(data, labels);
+        }
+
+        if(response.verificationCount != null){
+            //drawchart(response.projectStatus);
+            var jsonfile = response.verificationCount;
+
+            var carLabels = jsonfile.map(function(e) {
+                return e.statusKey;
+            });
+            var catData = jsonfile.map(function(e) {
+                return e.statusCount;
+            });
+            renderBarChart(catData, carLabels);
+        }
+      },
+      error: function ()
+      {
+         //alert("Error loading data! Please try again.");
+      }
+    });
+
+    function renderChart(data, labels) {
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Status of Projects',
+                    data: data,
+                    backgroundColor: [
+                        '#a8ed93',
+						'#eb947a',
+						'#9384c2',
+						'#ede89f'
+					],
+                }]
+            },
+        });
+    }
+
+    function renderBarChart(data, labels) {
+        var cbtx = document.getElementById("myBarChart");
+        var myBarChart = new Chart(cbtx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# of Projects in this category',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            maxRotation: 90,
+                            minRotation: 80
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    }
+</script>

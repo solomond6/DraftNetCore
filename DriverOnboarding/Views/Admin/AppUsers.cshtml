@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Users</h3>
+        @*<div class="box-tools pull-right">
+                <a href="@Url.Action("CreateUsers", "Admin")" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> New Vendor</a>
+            </div>*@
+        <div class="card-tools">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-default">
+                New User
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @if (TempData["ErrorMsg"] != null)
+        {
+            <alert class="alert alert-danger">@TempData["ErrorMsg"]</alert>
+        }
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <alert class="alert alert-success">@TempData["SuccessMsg"]</alert>
+        }
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Supervisor</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New User Form</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Admin" asp-action="CreateUser" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input type="text" class="form-control" name="username" id="username" placeholder="Enter Staff Username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Supervisor</label>
+                            <select class="form-control" name="supervisor" id="supervisor" required>
+                                <option>Select Supervisor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("GetAppUsers", "Admin")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "fullanme" },
+                { "data": "supervisor" },
+                { "data": "enabled" },
+                {}
+            ],
+            columnDefs: [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": -1
+            },{
+                "data": null,
+                "defaultContent": "",
+                "targets": -1
+            },
+            { targets : [3],
+                mRender: function (data, type, row, meta) {
+                    if (row.enabled == "1") {
+                        return "Active";
+                    } else {
+                        return "Deactivated"
+                    }
+                }
+            },
+            { targets : [4],
+                mRender: function (data, type, row, meta) {
+                    return '<button class="btn btn-success updateBtn" id="activeBtn" data-pid="'+row.id+'" data-statusid="1">Activate</button> ' +
+                            '<button class="btn btn-danger updateBtn" id="disableBtn" data-pid="'+row.id+'" data-statusid="0">Deactivate</button>'
+                }
+            }
+            ],
+            "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+
+    $(document).on('click', '.updateBtn', function () {
+        var pid = $(this).data('pid');
+        var statusid = $(this).data('statusid');
+        swal({
+            title: "Are you sure?",
+            //text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((updateStatus) => {
+            if (updateStatus) {
+                $.ajax({
+                    url: '@Url.Action("UpdateUserStatus", "Admin")',
+                    data: {
+                        id: pid,
+                        statusId: statusid,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.status == "00") {
+                            $('#example1').DataTable().ajax.reload();
+                            swal("User status updated!");
+                        }
+                    }
+                });
+            }
+        });
+    });
+
+    $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetUsers", "Utilities")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    requestData = item;
+                    jQuery.grep(item, function(stateList, i) {
+                        $('#supervisor').append($('<option>', {
+                            value: stateList.name,
+                            text: stateList.name
+                        }));
+                    });
+                });
+            }
+        });
+</script>

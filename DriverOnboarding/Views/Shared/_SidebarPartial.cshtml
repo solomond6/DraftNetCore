@@ -1,0 +1,214 @@
+﻿<!-- Main Sidebar Container -->
+<aside class="main-sidebar elevation-4 sidebar-light-maroon">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+        <img src="~/img/mooveLogo.png" alt="Moove Africa Logo" class="brand-image elevation-3" style="opacity:.95">
+        <span class="brand-text font-weight-light">Africa</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                @using Microsoft.AspNetCore.Http
+                <a href="#" class="d-block">@Context.Session.GetString("StaffName")</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item has-treeview">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="@Url.Action("Index", "Drivers")" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Drivers
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Drivers")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Drivers List</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Create", "Drivers")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add New Driver</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="@Url.Action("ApprovedDrivers", "Drivers")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Approved Drivers</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("RejectedDrivers", "Drivers")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rejected Drivers</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Schedule Verification
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Verification
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("ScheduledVerification", "Verification")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Scheduled Verification</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("VerificationPendingApproval", "Verification")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pending Approval</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("VerificationApproved", "Verification")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Approved Verification</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("VerificationRejected", "Verification")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Rejected Verification</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="@Url.Action("Index", "Vehicles")" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Vehicles
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Vehicles")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Assigned Vehicles</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("UnAssigned", "Vehicles")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Un-Assigned Vehicles</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Admin Setup
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="@Url.Action("AppUsers", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("DriverApprovalSetup", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Drivers Approval Setup</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("DriverDocumentSetup", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Driver's Document Setup</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("GuarantorDocumentSetup", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Guarantor's Doc. Setup</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("DriverSchemes", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Drivers Schemes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("DispatchSetup", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Dispatch Setup</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Countries", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Countries</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("States", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>States</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("LGAS", "Admin")" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Local Govt. Areas</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Logout
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

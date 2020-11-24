@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Vehicles</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Reg. Number</th>
+                        <th>Driver Id</th>
+                        <th>Moove Id</th>
+                        <th>Assignment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.card-body -->
+    </div>
+
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("UnAssignedVehicleData", "Vehicles")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "make" },
+                { "data": "model" },
+                { "data": "registration_number" },
+                { "data": "driver_id" },
+                { "data": "moove_id" },
+                { "data": "assignment_status" }
+            ],
+            "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+</script>

@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Dispatch</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        @if (TempData["ErrorMsg"] != null)
+        {
+        <alert class="alert alert-danger">@TempData["ErrorMsg"]</alert>
+        }
+        @if (TempData["SuccessMsg"] != null)
+        {
+            <alert class="alert alert-success">@TempData["SuccessMsg"]</alert>
+        }
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Dispatch Schedule Mode</th>
+                    <th>Max Schedule Per Dispatch</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Dispatch Schedule</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="Admin" asp-action="UpdateDispatchSetup" method="post">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Schedule Mode</label>
+                            <input type="hidden" class="form-control paramsId" name="id" id="paramsId">
+                            <input type="text" class="form-control docName" name="schedulemode" id="schedulemode" placeholder="Enter Scheme">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Max Dispacth</label>
+                            <input type="text" class="form-control maxdispacth" name="maxdispacth" id="maxdispacth" placeholder="Enter Scheme">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#example1').dataTable( {
+            "processing": true,
+            "serverSide": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "datatype": "json",
+            "ajax": {
+                "url": "@Url.Action("GetDispatchSetup", "Admin")",
+                "type": "GET"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "scheduleMode" },
+                { "data": "maxDispacth" },
+                {}
+            ],
+            "columnDefs": [
+            {
+                "searchable": false,
+                "orderable": false,
+                "targets": -1
+            },{
+                "data": null,
+                "defaultContent": "",
+                "targets": -1
+            },
+            { targets : [3],
+                mRender: function (data, type, row, meta) {
+                    return '<button class="btn btn-danger updateBtn" id="activeBtn" data-pid="' + row.id + '" data-schedulemode="' + row.scheduleMode + '" data-maxdispacth="' + row.maxDispacth + '" data-toggle="modal" data-target="#modal-default">Edit</button>';
+                }
+            }
+            ],
+           "lengthMenu": [[50, 100, 150, 200], [50, 100, 150, 200]],
+        });
+    });
+
+    $(document).on('click', '.updateBtn', function () {
+        var pid = $(this).data('pid');
+        var schedulemode = $(this).data('schedulemode');
+        var maxdispacth = $(this).data('maxdispacth');
+
+        $("#paramsId").val(pid);
+        $("#schedulemode").val(schedulemode);
+        $("#maxdispacth").val(maxdispacth);
+    });
+</script>
